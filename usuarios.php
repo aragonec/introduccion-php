@@ -1,6 +1,8 @@
+<?php
+include "php/conexion.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,26 +57,36 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="" class="row">
+                        <?php
+                            if(isset($_GET['error'])){
+                        ?>
+                                echo '<div class="alert alert-danger">
+                                    <b>Error:</b><?php echo $_GET['error'];?>
+                                    </div>';
+                        <?php    
+                            }
+                        ?>
+
+                        <form action="php/insertarUsuario.php" class="row" method="POST">
                             <div class="col-4">
                             <label for="">Nombre</label>
-                            <input type="text" class="form-control" placeholder="Inserta tu nombre">
+                            <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="txtNombre" required>
                             </div>
                             <div class="col-4">
                             <label for="">Apellido</label>
-                            <input type="text" class="form-control" placeholder="Inserta tu apellido">
+                            <input type="text" class="form-control" placeholder="Inserta tu apellido"name="ap" required>
                             </div>
                             <div class="col-4">
                             <label for="">Email</label>
-                            <input type="email" class="form-control" placeholder="Inserta tu Email">
+                            <input type="email" class="form-control" placeholder="Inserta tu Email"name="mail" required>
                             </div>
                             <div class="col-4">
                             <label for="">Password</label>
-                            <input type="password" class="form-control" placeholder="Inserta tu password">
+                            <input type="password" class="form-control" placeholder="Inserta tu password"name="pass1" required>
                             </div>
                             <div class="col-4">
                             <label for="">Confirmar Password</label>
-                            <input type="password" class="form-control" placeholder="Confirma tu password">
+                            <input type="password" class="form-control" placeholder="Confirma tu password"name="pass2" required>
                             </div>
                             <div class="col-4 p-2">
                             <br>

@@ -63,9 +63,16 @@ $resultado = $conexion->query("select * from usuarios order by id DESC") or die(
                         <?php
                         if (isset($_GET['error'])) {
                         ?>
-                            echo '<div class="alert alert-danger">
-                                <b>Error:</b><?php echo $_GET['error']; ?>
-                            </div>';
+                            <div class="alert alert-danger">
+                                <b>Error:</b> <?php echo $_GET['error']; ?>
+                            </div>
+                        <?php
+                        }
+                        if (isset($_GET['success'])) {
+                        ?>
+                            <div class="alert alert-success">
+                                <b>Listo!</b> <?php echo $_GET['success']; ?>
+                            </div>
                         <?php
                         }
                         ?>
@@ -81,7 +88,7 @@ $resultado = $conexion->query("select * from usuarios order by id DESC") or die(
                             </div>
                             <div class="col-4">
                                 <label for="">Email</label>
-                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="mail" required>
+                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="email" required>
                             </div>
                             <div class="col-4">
                                 <label for="">Password</label>
@@ -121,9 +128,14 @@ $resultado = $conexion->query("select * from usuarios order by id DESC") or die(
                                 <td><?php echo $fila['email']; ?></td>
                                 <td>*******</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning" 
+                                    <button class="btn btn-sm btn-warning btnEdit"
+                                    data-id="<?php echo $fila['id']; ?>"
+                                    data-nombre="<?php echo $fila['nombre']; ?>"
+                                    data-ap="<?php echo $fila['apellidos']; ?>"
+                                    data-email="<?php echo $fila['email']; ?>"
                                     data-toggle="modal" data-target="#modal-editar"> 
                                     <i class="fa fa-edit"></i></button>
+
                                     <button class="btn btn-sm btn-danger btnEliminar"
                                     data-id="<?php echo $fila['id']; ?>"
                                     data-toggle="modal" data-target="#modal-eliminar"> 
@@ -142,28 +154,54 @@ $resultado = $conexion->query("select * from usuarios order by id DESC") or die(
 
         <!-- Footer -->
         <?php include "layouts/footer.php"; ?>
+                <!-- Modal-EDITAR -->
         <div class="modal fade" id="modal-editar" style="display: none;" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content bg-warning">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Editar Usuario</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
+                    <form action="php/editarUsuario.php" method="POST">
                     <div class="modal-body">
-                        <p>¿Deseas editar usuario?</p>
+                    <div class="col-4">
+                                <label for="">Nombre</label>
+                                <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="nombreEdit" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="">Apellido</label>
+                                <input type="text" class="form-control" placeholder="Inserta tu apellido" name="ap" id="apEdit" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="email" id="emailEdit" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="">Password</label>
+                                <input type="password" class="form-control" placeholder="Inserta tu password" name="pass1" >
+                            </div>
+                            <div class="col-12">
+                                <label for="">Confirmar Password</label>
+                                <input type="password" class="form-control" placeholder="Confirma tu password" name="pass2" >
+                            </div>
+
+                        <input type="hidden" id="idEditar" name="id">
+
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-outline-dark" 
-                        data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-dark">Save changes</button>
+                        data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-outline-dark">Editar</button>
                     </div>
+                    </form>
                 </div>
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
         </div>
+        <!-- Modal-ELIMINAR -->
         <div class="modal fade" id="modal-eliminar" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content bg-danger">
@@ -210,8 +248,17 @@ $resultado = $conexion->query("select * from usuarios order by id DESC") or die(
             idEliminar=$(this).data('id');
             $("#idEliminar").val(idEliminar);
         });
+        $(".btnEdit").click(function(){
+            var idEdit=$(this).data('id');
+            var nombre=$(this).data('nombre');
+            var ap=$(this).data('ap');
+            var email=$(this).data('email');
+            $("#nombreEdit").val(nombre);
+            $("#apEdit").val(ap);
+            $("#emailEdit").val(email);
+            $("#idEditar").val(idEdit);
+        });
     });
     </script>
-</body>
-
+    </body>
 </html>

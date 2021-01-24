@@ -1,8 +1,11 @@
 <?php
 include "php/conexion.php";
+$resultado = $conexion->query("select * from usuarios order by id DESC") or die($conexion->error);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,11 +23,11 @@ include "php/conexion.php";
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
-        <?php include "layouts/header.php";?>
+        <?php include "layouts/header.php"; ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?php include "layouts/sidebar.php";?>
+        <?php include "layouts/sidebar.php"; ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -58,39 +61,39 @@ include "php/conexion.php";
                     </div>
                     <div class="card-body">
                         <?php
-                            if(isset($_GET['error'])){
+                        if (isset($_GET['error'])) {
                         ?>
-                                echo '<div class="alert alert-danger">
-                                    <b>Error:</b><?php echo $_GET['error'];?>
-                                    </div>';
-                        <?php    
-                            }
+                            echo '<div class="alert alert-danger">
+                                <b>Error:</b><?php echo $_GET['error']; ?>
+                            </div>';
+                        <?php
+                        }
                         ?>
 
                         <form action="php/insertarUsuario.php" class="row" method="POST">
                             <div class="col-4">
-                            <label for="">Nombre</label>
-                            <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="txtNombre" required>
+                                <label for="">Nombre</label>
+                                <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="txtNombre" required>
                             </div>
                             <div class="col-4">
-                            <label for="">Apellido</label>
-                            <input type="text" class="form-control" placeholder="Inserta tu apellido"name="ap" required>
+                                <label for="">Apellido</label>
+                                <input type="text" class="form-control" placeholder="Inserta tu apellido" name="ap" required>
                             </div>
                             <div class="col-4">
-                            <label for="">Email</label>
-                            <input type="email" class="form-control" placeholder="Inserta tu Email"name="mail" required>
+                                <label for="">Email</label>
+                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="mail" required>
                             </div>
                             <div class="col-4">
-                            <label for="">Password</label>
-                            <input type="password" class="form-control" placeholder="Inserta tu password"name="pass1" required>
+                                <label for="">Password</label>
+                                <input type="password" class="form-control" placeholder="Inserta tu password" name="pass1" required>
                             </div>
                             <div class="col-4">
-                            <label for="">Confirmar Password</label>
-                            <input type="password" class="form-control" placeholder="Confirma tu password"name="pass2" required>
+                                <label for="">Confirmar Password</label>
+                                <input type="password" class="form-control" placeholder="Confirma tu password" name="pass2" required>
                             </div>
                             <div class="col-4 p-2">
-                            <br>
-                            <button class="btn btn-primary"><i class="fa fa-plus"></i>Insertar</button>
+                                <br>
+                                <button class="btn btn-primary"><i class="fa fa-plus"></i>Insertar</button>
                             </div>
                         </form>
                     </div>
@@ -110,20 +113,25 @@ include "php/conexion.php";
                     </thead>
                     <tbody>
                         <?php
-                            for($i=1;$i<11;$i++){
+                        while ($fila = mysqli_fetch_array($resultado)) {
                         ?>
-                        <tr>
-                            <td><?php echo $i ?></td>
-                            <td>Edgar Aragon</td>
-                            <td>aragon1@gmail.com</td>
-                            <td>*********</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning"> <i class="fa fa-edit"></i></button>
-                                <button class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $fila['id']; ?></td>
+                                <td><?php echo $fila['nombre'] . ' ' . $fila['apellidos']; ?></td>
+                                <td><?php echo $fila['email']; ?></td>
+                                <td>*******</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" 
+                                    data-toggle="modal" data-target="#modal-editar"> 
+                                    <i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-danger btnEliminar"
+                                    data-id="<?php echo $fila['id']; ?>"
+                                    data-toggle="modal" data-target="#modal-eliminar"> 
+                                    <i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
                         <?php
-                            }
+                        }
                         ?>
                     </tbody>
                 </table>
@@ -133,7 +141,56 @@ include "php/conexion.php";
         <!-- /.content-wrapper -->
 
         <!-- Footer -->
-        <?php include "layouts/footer.php";?>
+        <?php include "layouts/footer.php"; ?>
+        <div class="modal fade" id="modal-editar" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-warning">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Deseas editar usuario?</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-outline-dark" 
+                        data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-dark">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="modal-eliminar" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content bg-danger">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <form action="php/eliminarUsuario.php" method="POST">
+                    <div class="modal-body">
+                        <p>¿Deseas eliminar el usuario?</p>
+
+                        <input type="hidden" id="idEliminar" name="id">
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-outline-light" 
+                        data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-outline-light">Eliminar</button>
+                    </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
 
     </div>
     <!-- ./wrapper -->
@@ -146,6 +203,15 @@ include "php/conexion.php";
     <script src="dashboard/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dashboard/dist/js/demo.js"></script>
+    <script>
+    var idEliminar=0;
+    $(document).ready(function(){
+        $(".btnEliminar").click(function(){
+            idEliminar=$(this).data('id');
+            $("#idEliminar").val(idEliminar);
+        });
+    });
+    </script>
 </body>
 
 </html>

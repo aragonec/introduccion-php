@@ -164,32 +164,29 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Editar Usuario</h4>
+                        <h4 class="modal-title">Editar Producto</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form action="php/editarUsuario.php" method="POST">
+                    <form action="php/editarProducto.php" method="POST">
                         <div class="modal-body">
-                            <div class="col-12">
+                        <div class="col-12">
                                 <label for="">Nombre</label>
-                                <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="nombreEdit" required>
+                                <input type="text" class="form-control" placeholder="Insertar nombre" name="nombre" id="nombreEdit" required>
                             </div>
                             <div class="col-12">
-                                <label for="">Apellido</label>
-                                <input type="text" class="form-control" placeholder="Inserta tu apellido" name="ap" id="apEdit" required>
+                                <label for="">Precio</label>
+                                <input type="number" class="form-control" placeholder="Insertar precio" name="precio" id="precioEdit"required>
                             </div>
                             <div class="col-12">
-                                <label for="">Email</label>
-                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="email" id="emailEdit" required>
+                                <label for="">Inventario</label>
+                                <input type="number" class="form-control" placeholder="Insertar el inventario" 
+                                min="1" name="inventario" id="inventarioEdit" required>
                             </div>
                             <div class="col-12">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" placeholder="Inserta tu password" name="pass1" >
-                            </div>
-                            <div class="col-12">
-                                <label for="">Confirmar Password</label>
-                                <input type="password" class="form-control" placeholder="Confirma tu password" name="pass2" >
+                                <label for="">Imagen</label>
+                                <input type="file" class="form-control" placeholder="sube la imagen" name="imagen">
                             </div>
 
                         <input type="hidden" id="idEditar" name="id">
@@ -211,12 +208,12 @@
             <div class="modal-dialog">
                 <div class="modal-content bg-danger">
                     <div class="modal-header">
-                        <h4 class="modal-title">Eliminar Usuario</h4>
+                        <h4 class="modal-title">Eliminar Producto</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form action="php/eliminarUsuario.php" method="POST">
+                    <form action="php/eliminarProducto.php" method="POST">
                     <div class="modal-body">
                         <p>¿Deseas eliminar el usuario?</p>
 
@@ -256,11 +253,12 @@
         $(".btnEdit").click(function(){
             var idEdit=$(this).data('id');
             var nombre=$(this).data('nombre');
-            var ap=$(this).data('ap');
-            var email=$(this).data('email');
+            var precio=$(this).data('precio');
+            var inventario=$(this).data('inventario');
+            
             $("#nombreEdit").val(nombre);
-            $("#apEdit").val(ap);
-            $("#emailEdit").val(email);
+            $("#precioEdit").val(precio);
+            $("#inventarioEdit").val(inventario);
             $("#idEditar").val(idEdit);
         });
     });

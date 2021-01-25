@@ -1,6 +1,8 @@
 <?php
-include "php/conexion.php";
-$resultado = $conexion->query("select * from usuarios order by id DESC") or die($conexion->error);
+    session_start();
+    $userData=$_SESSION['userData'];
+    include "php/conexion.php";
+    $resultado = $conexion->query("select * from usuarios order by id DESC") or die($conexion->error);
 ?>
 
 <!DOCTYPE html>

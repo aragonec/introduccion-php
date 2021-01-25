@@ -12,7 +12,7 @@
     }else{
         $pass1=sha1($pass1);
         $conexion->query("insert into usuarios (nombre, apellidos, email, password,img_perfil) values 
-        ('$nombre','$ap','$email','$pass1','default')") or die($conexion ->error);
+        ('$nombre','$ap','$email','$pass1','default.jpg')") or die($conexion ->error);
         echo "Insertado Correctamente";
         header("Location:../usuarios.php");
     }

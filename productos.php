@@ -6,7 +6,7 @@
 
     $userData=$_SESSION['userData'];
     include "php/conexion.php";
-    $resultado = $conexion->query("select * from usuarios order by id DESC") or die($conexion->error);
+    $resultado = $conexion->query("select * from productos order by id DESC") or die($conexion->error);
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +42,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Usuarios</h1>
+                            <h1>Productos</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -54,7 +54,7 @@
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Agregar usuario</h3>
+                        <h3 class="card-title">Agregar producto</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -83,28 +83,25 @@
                         }
                         ?>
 
-                        <form action="php/insertarUsuario.php" class="row" method="POST">
+                        <form action="php/insertarProducto.php" class="row" method="POST" enctype="multipart/form-data">
                             <div class="col-4">
                                 <label for="">Nombre</label>
-                                <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="txtNombre" required>
+                                <input type="text" class="form-control" placeholder="Insertar nombre" name="nombre" id="txtNombre" required>
                             </div>
                             <div class="col-4">
-                                <label for="">Apellido</label>
-                                <input type="text" class="form-control" placeholder="Inserta tu apellido" name="ap" required>
+                                <label for="">Precio</label>
+                                <input type="number" class="form-control" placeholder="Insertar precio" name="precio" required>
                             </div>
                             <div class="col-4">
-                                <label for="">Email</label>
-                                <input type="email" class="form-control" placeholder="Inserta tu Email" name="email" required>
+                                <label for="">Inventario</label>
+                                <input type="number" class="form-control" placeholder="Insertar el inventario" 
+                                min="1" name="inventario" required>
                             </div>
                             <div class="col-4">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" placeholder="Inserta tu password" name="pass1" required>
+                                <label for="">Imagen</label>
+                                <input type="file" class="form-control" placeholder="sube la imagen" name="imagen" required>
                             </div>
-                            <div class="col-4">
-                                <label for="">Confirmar Password</label>
-                                <input type="password" class="form-control" placeholder="Confirma tu password" name="pass2" required>
-                            </div>
-                            <div class="col-4 p-2">
+                            <div class="col-12 p-2">
                                 <br>
                                 <button class="btn btn-primary"><i class="fa fa-plus"></i>Insertar</button>
                             </div>
@@ -115,13 +112,14 @@
                     <!-- /.card-footer-->
                 </div>
                 <!-- /.card -->
-                <h2 class="subtitulo">Usuarios</h2>
+                <h2 class="subtitulo">Productos</h2>
                 <table class="table">
                     <thead>
                         <th>Id</th>
+                        <th> </th>
                         <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Password</th>
+                        <th>Precio</th>
+                        <th>Inventario</th>
                         <th></th>
                     </thead>
                     <tbody>
@@ -130,15 +128,16 @@
                         ?>
                             <tr>
                                 <td><?php echo $fila['id']; ?></td>
-                                <td><?php echo $fila['nombre'] . ' ' . $fila['apellidos']; ?></td>
-                                <td><?php echo $fila['email']; ?></td>
-                                <td>*******</td>
+                                <td><img src="./img/productos/<?php echo $fila['imagen']; ?>" width="50px" height="50px" alt=""></td>
+                                <td><?php echo $fila['nombre']; ?></td>
+                                <td><?php echo $fila['precio']; ?></td>
+                                <td><?php echo $fila['inventario']; ?></td>
                                 <td>
                                     <button class="btn btn-sm btn-warning btnEdit"
                                     data-id="<?php echo $fila['id']; ?>"
                                     data-nombre="<?php echo $fila['nombre']; ?>"
-                                    data-ap="<?php echo $fila['apellidos']; ?>"
-                                    data-email="<?php echo $fila['email']; ?>"
+                                    data-precio="<?php echo $fila['precio']; ?>"
+                                    data-inventario="<?php echo $fila['inventario']; ?>"
                                     data-toggle="modal" data-target="#modal-editar"> 
                                     <i class="fa fa-edit"></i></button>
 
